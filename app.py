@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
-
+print("DB_USER:", os.getenv("DB_USER"))
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")  # Secret key for session management
 
@@ -62,8 +62,8 @@ def add_farm():
 @app.route('/crops', methods=['POST'])
 def add_crop():
     data = request.json
-    query = "INSERT INTO Crop (crop_name, crop_type) VALUES (%s, %s)"
-    values = (data['crop_name'], data['crop_type'])
+    query = "INSERT INTO Crop (crop_name, crop_family) VALUES (%s, %s)"
+    values = (data['crop_name'], data['crop_family'])
     cursor.execute(query, values)
     conn.commit()
     return jsonify({"message": "Crop added successfully"}), 201
